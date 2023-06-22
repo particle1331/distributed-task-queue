@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 88
+skip-string-normalization = true
+
+[tool.isort]
+multi_line_output = 3
+
+[tool.pylint.messages_control]
+max-line-length = 88
+disable = [
+    "invalid-name",
+    "wrong-import-position",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "unspecified-encoding",
+    "no-name-in-module",
+    "missing-docstring",
+    "wrong-import-order",
+    "trailing-whitespace",
+    "too-few-public-methods"
+]

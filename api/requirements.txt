@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+celery
+redis
+distributed-task-queue @ git+https://github.com/particle1331/distributed-task-queue.git@main

@@ -1,0 +1,54 @@
+version: '3'
+services:
+  fastapi-app:
+    build:
+      dockerfile: Dockerfile.api
+    ports:
+      - '8000:8000'
+    depends_on:
+      - redis
+      - rabbitmq
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    command: ["--port", "8000", "--host", "0.0.0.0"]
+
+  worker:
+    build:
+      dockerfile: Dockerfile.worker
+    depends_on:
+      - redis
+      - rabbitmq
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    deploy:
+      replicas: 2
+    command: ["-A", "tasks", "worker", "--concurrency", "1"]
+
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+
+  rabbitmq:
+    image: rabbitmq:3.12.0-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  flower:
+    image: mher/flower
+    ports:
+      - '5555:5555'
+    command:
+      - "celery"
+      - "--broker=amqp://guest@rabbitmq:5672//"
+      - "flower"
+      - "--broker_api=http://guest:guest@rabbitmq:15672/api//"
+    depends_on:
+      - rabbitmq
