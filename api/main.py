@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from models import CeleryResult, CeleryTask
 
-import tasks
+from task_queue import tasks
 
 api = FastAPI()
 

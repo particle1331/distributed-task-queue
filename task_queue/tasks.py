@@ -1,7 +1,7 @@
 import random
 import time
 
-from app import app
+from task_queue.app import app
 
 
 @app.task

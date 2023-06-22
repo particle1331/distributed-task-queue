@@ -28,7 +28,7 @@ services:
       - RABBITMQ_PORT=5672
     deploy:
       replicas: 2
-    command: ["-A", "tasks", "worker", "--concurrency", "1"]
+    command: ["-A", "task_queue.tasks", "worker", "--concurrency", "1"]
 
   redis:
     image: redis:latest

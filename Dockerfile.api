@@ -2,9 +2,13 @@ FROM python:3.9.15-slim
 
 WORKDIR /opt
 
-COPY /api/* /tasks/* /opt/
+COPY /api/* requirements.txt ./
+
+COPY /task_queue/ ./task_queue/
 
 RUN pip install -r requirements.txt
+
+RUN pip install -U fastapi uvicorn
 
 EXPOSE 8000
 
