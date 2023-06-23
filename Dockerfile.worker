@@ -2,10 +2,10 @@ FROM python:3.9.15-slim
 
 WORKDIR /opt
 
-COPY /task_queue/ ./task_queue/
-
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
+
+COPY /task_queue/ ./task_queue/
 
 ENTRYPOINT ["celery"]

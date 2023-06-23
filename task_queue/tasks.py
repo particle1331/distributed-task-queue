@@ -11,6 +11,7 @@ def sleep(index, wait=0, priority=0):
 
 
 @app.task
-def fails():
+def random_fail():
+    time.sleep(0.1)
     x = random.choice([0, 1])
     return 1 / x
