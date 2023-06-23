@@ -5,9 +5,9 @@ from task_queue.app import app
 
 
 @app.task
-def sleep(wait=0, priority=0):
+def sleep(wait=0):
     time.sleep(wait)
-    return {"wait": wait, "priority": priority}
+    return 1
 
 
 @app.task
