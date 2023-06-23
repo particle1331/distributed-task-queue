@@ -1,7 +1,6 @@
 import os
 
 from celery import Celery
-from celery.schedules import crontab
 from kombu import Exchange, Queue
 
 REDIS_HOST = os.environ["REDIS_HOST"]
@@ -30,12 +29,3 @@ app.conf.task_queues = [
         queue_arguments={'x-max-priority': 10},
     ),
 ]
-
-# app.conf.beat_schedule = {
-#     'hello-every-3-seconds': {'task': 'tasks.hello', 'schedule': 3, 'args': (0, 3)},
-#     'hello-every-1-minute': {
-#         'task': 'tasks.hello',
-#         'schedule': crontab(minute=1),
-#         'args': (0, 3),
-#     },
-# }
