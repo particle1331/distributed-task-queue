@@ -18,7 +18,6 @@ CELERY_CONFIG = {
     "task_default_priority": 0,
     "task_queue_max_priority": 5,
     "task_create_missing_queues": False,
-    "broker_connection_retry_on_startup": True,
     "result_expires": None,
 }
 
