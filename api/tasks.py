@@ -19,14 +19,14 @@ async def sleep(wait: float, return_value: int = 1, priority: int = 0) -> str:
         priority=priority,
     )
     task_id = result.task_id
-    return {'task_id': task_id, 'status': 'Processing'}
+    return {'task_id': task_id, 'status': result.status}
 
 
 @router.post("/random_fail", response_model=CeleryTask)
 async def random_fail():
     result = tasks.random_fail.delay()
     task_id = result.task_id
-    return {'task_id': task_id, 'status': 'Processing'}
+    return {'task_id': task_id, 'status': result.status}
 
 
 @router.get("/active")

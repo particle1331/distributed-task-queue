@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class CeleryTask(BaseModel):
@@ -9,3 +10,4 @@ class CeleryTask(BaseModel):
 class CeleryResult(BaseModel):
     task_id: str
     status: str
+    result: Optional[str]

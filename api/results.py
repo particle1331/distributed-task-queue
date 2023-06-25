@@ -9,6 +9,14 @@ router = APIRouter(prefix="/results", tags=["results"])
 async def result(task_id):
     task = AsyncResult(task_id)
     if not task.ready():
-        return {"task_id": task_id, "status": "Processing"}
+        status = task.status
+        result = None
+    else:
+        status = task.status
+        result = None if status == "FAILURE" else task.get()
 
-    return {"task_id": task_id, "status": task.get()}
+    return {
+        "task_id": task_id, 
+        "status": status, 
+        "result": result,
+    }
