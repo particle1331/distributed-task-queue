@@ -12,4 +12,4 @@ RUN pip install -U fastapi uvicorn
 
 EXPOSE 8000
 
-ENTRYPOINT ["uvicorn", "main:api"]
+ENTRYPOINT ["uvicorn", "main:app"]
