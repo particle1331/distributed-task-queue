@@ -3,8 +3,6 @@ import os
 from celery import Celery
 from kombu import Exchange, Queue
 
-PROJECT_NAME = "dtq"
-QUEUE_SIZE_KEY = f"{PROJECT_NAME}_queue_size"
 REDIS_HOST = os.environ["REDIS_HOST"]
 REDIS_PORT = os.environ["REDIS_PORT"]
 RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
@@ -27,7 +25,6 @@ app = Celery(
     backend=BACKEND_URL,
     **CELERY_CONFIG,
 )
-
 
 app.conf.task_queues = [
     Queue(
