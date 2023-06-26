@@ -1,5 +1,5 @@
 import os
-
+from celery.schedules import crontab
 from celery import Celery
 from kombu import Exchange, Queue
 
@@ -34,3 +34,18 @@ app.conf.task_queues = [
         queue_arguments={'x-max-priority': 10},
     ),
 ]
+
+
+app.conf.beat_schedule = {
+    'random-fail-every-10-seconds': {
+        'task': 'task_queue.tasks.random_fail', 
+        'schedule': 10, 
+        'args': (),
+    },
+    'sleep-every-1-minute': {
+        'task': 'task_queue.tasks.sleep',
+        'schedule': crontab(),
+        'args': (1, 0),
+        'options': {'priority': 3}
+    },
+}
