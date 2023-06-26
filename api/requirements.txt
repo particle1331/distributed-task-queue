@@ -2,4 +2,4 @@ redis
 celery
 fastapi
 uvicorn
-pandas
+pika
