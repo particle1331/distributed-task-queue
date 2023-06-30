@@ -26,6 +26,7 @@ def poll_messages():
 
     messages = []
     while True:
+        #  pylint: disable = unused-variable
         method_frame, properties, body = channel.basic_get(
             queue="celery",
             auto_ack=False,
