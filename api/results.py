@@ -1,22 +1,19 @@
 from celery.result import AsyncResult
 from fastapi import APIRouter
-from models import CeleryResult
+from models import Result
 
 router = APIRouter(prefix="/results", tags=["results"])
 
 
-@router.get("/{task_id}", response_model=CeleryResult)
-async def result(task_id):
-    task = AsyncResult(task_id)
-    if not task.ready():
-        status = task.status
-        result = None
-    else:
-        status = task.status
-        result = None if status == "FAILURE" else task.get()
-
+@router.get("/{task_id}", response_model=Result)
+async def fetch_result(task_id):
+    result = AsyncResult(task_id)
     return {
-        "task_id": task_id, 
-        "status": status, 
-        "result": result,
+        "task_id": result.task_id,
+        "status": result.status,
+        "successful": result.successful(),
+        "args": result.args,
+        "kwargs": result.kwargs,
+        "date_done": result.date_done,
+        "result": result.result,
     }
