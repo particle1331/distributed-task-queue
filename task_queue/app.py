@@ -23,12 +23,7 @@ CELERY_CONFIG = {
     "result_extended": True,
 }
 
-app = Celery(
-    PROJECT_NAME,
-    broker=BROKER_URL,
-    backend=BACKEND_URL,
-)
-
+app = Celery(PROJECT_NAME, broker=BROKER_URL, backend=BACKEND_URL)
 app.conf.update(CELERY_CONFIG)
 app.conf.task_queues = [
     Queue(
