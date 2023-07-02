@@ -58,7 +58,7 @@ async def total_pending_size() -> float:
 
 
 @router.post("/revoke/{task_id}")
-async def revoke_task(task_id: str) -> int:
+async def revoke_task(task_id: str) -> JSONResponse:
     if not exist_workers():
         message = f"Task {task_id} revoke failed. No workers found."
         status_code = status.HTTP_400_BAD_REQUEST
@@ -71,7 +71,7 @@ async def revoke_task(task_id: str) -> int:
 
 
 @router.post("/abort/{task_id}")
-async def abort_task(task_id: str) -> int:
+async def abort_task(task_id: str) -> JSONResponse:
     if not exist_workers():
         message = f"Task {task_id} abort failed. No workers found."
         status_code = status.HTTP_400_BAD_REQUEST
