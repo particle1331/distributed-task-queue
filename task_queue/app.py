@@ -24,12 +24,6 @@ app = Celery(
 )
 
 
-OTHER_NAME = "other"
-DEFAULT_NAME = "default"
-exchange = Exchange(DEFAULT_NAME, type="direct")
-other_queue = Queue(OTHER_NAME, exchange, routing_key=OTHER_NAME)
-default_queue = Queue(DEFAULT_NAME, exchange, routing_key=DEFAULT_NAME)
-
 CELERY_CONFIG = {
     "task_acks_late": True,
     "worker_prefetch_multiplier": 1,
@@ -38,13 +32,24 @@ CELERY_CONFIG = {
     "task_create_missing_queues": False,
     "result_expires": None,
     "result_extended": True,
+}
+
+OTHER_NAME = "other"
+DEFAULT_NAME = "default"
+exchange = Exchange(DEFAULT_NAME, type="direct")
+other_queue = Queue(OTHER_NAME, exchange, routing_key=OTHER_NAME)
+default_queue = Queue(DEFAULT_NAME, exchange, routing_key=DEFAULT_NAME)
+
+ROUTING_CONFIG = {
     "task_queues": (default_queue, other_queue),
     "task_default_queue": DEFAULT_NAME,
     "task_default_exchange": DEFAULT_NAME,
     "task_default_routing_key": DEFAULT_NAME,
+    'task_queue.other_tasks.*': {'queue': 'other'},
 }
 
 app.conf.update(CELERY_CONFIG)
+app.conf.update(ROUTING_CONFIG)
 
 
 app.conf.beat_schedule = {
