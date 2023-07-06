@@ -16,14 +16,14 @@ async def sleep(wait: float, return_value: int = 1, priority: int = 0) -> str:
         priority=priority,
     )
     task_id = result.task_id
-    return {'task_id': task_id, 'status': result.status}
+    return {"task_id": task_id, "status": result.status}
 
 
 @router.post("/random_fail", response_model=Task)
 async def random_fail():
     result = tasks.random_fail.delay()
     task_id = result.task_id
-    return {'task_id': task_id, 'status': result.status}
+    return {"task_id": task_id, "status": result.status}
 
 
 @router.get("/active")
@@ -52,7 +52,7 @@ async def total_pending_size() -> float:
     messages = poll_messages()
     pending_size = 0
     for m in messages:
-        if m['task'] == "task_queue.tasks.sleep":
+        if m["task"] == "task_queue.tasks.sleep":
             pending_size += m["kwargs"]["wait"]
     return pending_size
 

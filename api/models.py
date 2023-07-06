@@ -42,7 +42,7 @@ class Result(BaseModel):
     kwargs: Optional[dict]
     date_done: Optional[datetime]
 
-    @validator('result', pre=True)
+    @validator("result", pre=True)
     def validate_result(cls, value):
         if value is None:
             return None

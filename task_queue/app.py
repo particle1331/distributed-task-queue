@@ -45,7 +45,7 @@ ROUTING_CONFIG = {
     "task_default_queue": DEFAULT_NAME,
     "task_default_exchange": DEFAULT_NAME,
     "task_default_routing_key": DEFAULT_NAME,
-    'task_queue.other_tasks.*': {'queue': 'other'},
+    "task_queue.other_tasks.*": {"queue": "other"},
 }
 
 app.conf.update(CELERY_CONFIG)
