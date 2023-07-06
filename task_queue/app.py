@@ -35,7 +35,7 @@ CELERY_CONFIG = {
 }
 
 OTHER_NAME = "other"
-DEFAULT_NAME = "default"
+DEFAULT_NAME = "celery" # backward compatible
 exchange = Exchange(DEFAULT_NAME, type="direct")
 other_queue = Queue(OTHER_NAME, exchange, routing_key=OTHER_NAME)
 default_queue = Queue(DEFAULT_NAME, exchange, routing_key=DEFAULT_NAME)
@@ -45,7 +45,7 @@ ROUTING_CONFIG = {
     "task_default_queue": DEFAULT_NAME,
     "task_default_exchange": DEFAULT_NAME,
     "task_default_routing_key": DEFAULT_NAME,
-    "task_queue.other_tasks.*": {"queue": "other"},
+    "task_routes": {"task_queue.other_tasks.*": {"queue": "other"}},
 }
 
 app.conf.update(CELERY_CONFIG)
