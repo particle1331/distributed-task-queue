@@ -13,7 +13,7 @@ services:
       - REDIS_PORT=6379
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
-    command: ["--port", "8000", "--host", "0.0.0.0"]
+    command: ['--port', '8000', '--host', '0.0.0.0']
 
   worker:
     build:
@@ -28,7 +28,11 @@ services:
       - RABBITMQ_PORT=5672
     deploy:
       replicas: 2
-    command: ["-A", "task_queue.app", "worker", "--concurrency", "2", "-l", "INFO"]
+    command: [
+      '-A', 'task_queue.app', 'worker', '-Q', 'default', 
+      '--concurrency', '2', 
+      '-l', 'INFO', '-f', 'celery.log'
+    ]
 
   redis:
     image: redis:latest
@@ -46,9 +50,9 @@ services:
     ports:
       - '5555:5555'
     command:
-      - "celery"
-      - "--broker=amqp://guest@rabbitmq:5672//"
-      - "flower"
-      - "--broker_api=http://guest:guest@rabbitmq:15672/api//"
+      - 'celery'
+      - '--broker=amqp://guest@rabbitmq:5672//'
+      - 'flower'
+      - '--broker_api=http://guest:guest@rabbitmq:15672/api//'
     depends_on:
       - rabbitmq
