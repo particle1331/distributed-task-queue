@@ -1,7 +1,7 @@
 import random
 import time
 
-from task_queue.app import app
+from dtq.app import app
 
 
 @app.task

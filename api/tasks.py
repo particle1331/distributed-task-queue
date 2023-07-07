@@ -3,8 +3,8 @@ from fastapi.responses import JSONResponse
 from models import ActiveTask, PendingTask, Task
 from utils import exist_workers, poll_messages
 
-from task_queue import tasks
-from task_queue.app import app as celery_app
+from dtq import tasks
+from dtq.app import app as celery_app
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
@@ -16,14 +16,14 @@ async def sleep(wait: float, return_value: int = 1, priority: int = 0) -> str:
         priority=priority,
     )
     task_id = result.task_id
-    return {'task_id': task_id, 'status': result.status}
+    return {"task_id": task_id, "status": result.status}
 
 
 @router.post("/random_fail", response_model=Task)
 async def random_fail():
     result = tasks.random_fail.delay()
     task_id = result.task_id
-    return {'task_id': task_id, 'status': result.status}
+    return {"task_id": task_id, "status": result.status}
 
 
 @router.get("/active")
@@ -47,13 +47,15 @@ async def pending_tasks() -> list[PendingTask]:
     return messages
 
 
-@router.get("/pending_size")
-async def total_pending_size() -> float:
+@router.get("/pending_size/")
+async def total_pending_size(
+    task_path: str = "tasks.sleep", key: str = "wait"
+) -> float:
     messages = poll_messages()
     pending_size = 0
     for m in messages:
-        if m['task'] == "task_queue.tasks.sleep":
-            pending_size += m["kwargs"]["wait"]
+        if m["task"] == f"dtq.{task_path}":
+            pending_size += m["kwargs"][key]
     return pending_size
 
 

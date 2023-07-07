@@ -15,7 +15,7 @@ app = Celery(
     PROJECT_NAME,
     broker=BROKER_URL,
     backend=BACKEND_URL,
-    include=("task_queue.tasks",),
+    include=("dtq.tasks",),
 )
 
 

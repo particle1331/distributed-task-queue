@@ -3,7 +3,7 @@ import os
 
 import pika
 
-from task_queue.app import app as celery_app
+from dtq.app import app as celery_app
 
 
 def exist_workers():
@@ -11,7 +11,7 @@ def exist_workers():
     return inspector.ping() is not None
 
 
-def poll_messages():
+def poll_messages(queue="celery"):
     parameters = pika.ConnectionParameters(
         host=os.environ["RABBITMQ_HOST"],
         port=os.environ["RABBITMQ_PORT"],
@@ -19,16 +19,14 @@ def poll_messages():
     conn = pika.BlockingConnection(parameters)
     channel = conn.channel()
     channel.queue_declare(
-        queue="celery",
-        durable=True,
-        arguments={"x-max-priority": 10},
+        queue=queue, durable=True, arguments={"x-max-priority": 10}
     )
 
     messages = []
     while True:
         #  pylint: disable = unused-variable
         method_frame, properties, body = channel.basic_get(
-            queue="celery",
+            queue=queue,
             auto_ack=False,
         )
         if method_frame is None:

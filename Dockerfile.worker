@@ -8,6 +8,6 @@ RUN pip install -r requirements.txt
 RUN pip install setproctitle
 RUN apt-get update && apt-get install -y procps
 
-COPY /task_queue/ ./task_queue/
+COPY /dtq/ ./dtq/
 
 ENTRYPOINT ["celery"]

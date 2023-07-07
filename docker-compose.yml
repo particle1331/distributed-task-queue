@@ -1,10 +1,10 @@
-version: '3'
+version: "3"
 services:
   fastapi-app:
     build:
       dockerfile: Dockerfile.api
     ports:
-      - '8000:8000'
+      - "8000:8000"
     depends_on:
       - redis
       - rabbitmq
@@ -28,23 +28,23 @@ services:
       - RABBITMQ_PORT=5672
     deploy:
       replicas: 2
-    command: ["-A", "task_queue.app", "worker", "--concurrency", "2", "-l", "INFO"]
+    command: ["-A", "dtq.app", "worker", "--concurrency", "2", "-l", "INFO"]
 
   redis:
     image: redis:latest
     ports:
-      - '6379:6379'
+      - "6379:6379"
 
   rabbitmq:
     image: rabbitmq:3.12.0-management
     ports:
-      - '5672:5672'
-      - '15672:15672'
+      - "5672:5672"
+      - "15672:15672"
 
   flower:
     image: mher/flower
     ports:
-      - '5555:5555'
+      - "5555:5555"
     command:
       - "celery"
       - "--broker=amqp://guest@rabbitmq:5672//"

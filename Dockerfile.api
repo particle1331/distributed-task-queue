@@ -6,7 +6,7 @@ COPY /api/* ./
 
 RUN pip install -r requirements.txt
 
-COPY /task_queue/ ./task_queue/
+COPY /dtq/ ./dtq/
 
 EXPOSE 8000
 
