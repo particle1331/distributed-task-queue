@@ -28,7 +28,10 @@ services:
       - RABBITMQ_PORT=5672
     deploy:
       replicas: 2
-    command: ["-A", "dtq.app", "worker", "--concurrency", "2", "-l", "INFO"]
+    command: [
+      "-A", "dtq.app", "worker", "--concurrency", "2", 
+      "-l", "INFO", "-f", "celery.log"
+    ]
 
   redis:
     image: redis:latest
@@ -40,6 +43,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
 
   flower:
     image: mher/flower
