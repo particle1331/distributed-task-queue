@@ -29,7 +29,7 @@ services:
     deploy:
       replicas: 2
     command: [
-      "-A", "dtq.app", "worker", "--concurrency", "2", 
+      "-A", "dtq.app", "worker", "--concurrency", "2", "-Q", "celery",
       "-l", "INFO", "-f", "celery.log"
     ]
 

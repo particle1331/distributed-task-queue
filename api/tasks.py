@@ -42,16 +42,16 @@ async def active_tasks() -> list[ActiveTask]:
 
 
 @router.get("/pending")
-async def pending_tasks() -> list[PendingTask]:
-    messages = poll_messages()
+async def pending_tasks(queue: str = "celery") -> list[PendingTask]:
+    messages = poll_messages(queue)
     return messages
 
 
 @router.get("/pending_size/")
 async def total_pending_size(
-    task_path: str = "tasks.sleep", key: str = "wait"
+    queue: str = "celery", task_path: str = "tasks.sleep", key: str = "wait"
 ) -> float:
-    messages = poll_messages()
+    messages = poll_messages(queue)
     pending_size = 0
     for m in messages:
         if m["task"] == f"dtq.{task_path}":
