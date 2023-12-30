@@ -50,6 +50,5 @@ services:
       - "--broker=amqp://guest@rabbitmq:5672//"
       - "flower"
       - "--broker_api=http://guest:guest@rabbitmq:15672/api//"
-      - "--basic-auth=user:password"
     depends_on:
       - rabbitmq
