@@ -2,7 +2,7 @@ FROM python:3.9.15-slim
 
 WORKDIR /opt
 
-COPY requirements.txt .
+COPY ./dtq/requirements.txt .
 
 RUN pip install -r requirements.txt
 RUN pip install setproctitle
