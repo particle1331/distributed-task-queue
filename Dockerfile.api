@@ -1,0 +1,15 @@
+FROM python:3.9.15-slim
+
+WORKDIR /opt
+
+COPY ./dtq/requirements.txt requirements.dtq.txt
+COPY ./api/requirements.txt requirements.api.txt
+RUN pip install -r requirements.dtq.txt
+RUN pip install -r requirements.api.txt
+
+COPY ./dtq ./dtq
+COPY ./api .
+
+EXPOSE 8000
+
+ENTRYPOINT ["uvicorn", "main:app"]
