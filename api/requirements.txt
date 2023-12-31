@@ -1,5 +1,3 @@
-redis
-celery
 fastapi
 uvicorn
 pika

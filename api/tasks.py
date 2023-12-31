@@ -68,7 +68,7 @@ async def revoke_task(task_id: str) -> JSONResponse:
         status_code = status.HTTP_400_BAD_REQUEST
     else:
         celery_app.control.revoke(task_id)
-        message = f"Task {task_id} revoked successfully."
+        message = f"Task {task_id} revoked."
         status_code = status.HTTP_200_OK
 
     return JSONResponse({"message": message}, status_code=status_code)
@@ -81,7 +81,7 @@ async def abort_task(task_id: str) -> JSONResponse:
         status_code = status.HTTP_400_BAD_REQUEST
     else:
         celery_app.control.revoke(task_id, terminate=True)
-        message = f"Task {task_id} aborted successfully."
+        message = f"Task {task_id} aborted."
         status_code = status.HTTP_200_OK
 
     return JSONResponse({"message": message}, status_code=status_code)
