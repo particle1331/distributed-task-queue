@@ -2,10 +2,10 @@ FROM python:3.9.15-slim
 
 WORKDIR /opt
 
-COPY ./dtq/requirements.txt requirements.dtq.txt
-COPY ./api/requirements.txt requirements.api.txt
-RUN pip install -r requirements.dtq.txt
-RUN pip install -r requirements.api.txt
+COPY ./dtq/requirements.txt dtq-requirements.txt
+COPY ./api/requirements.txt api-requirements.txt
+RUN pip install -r dtq-requirements.txt
+RUN pip install -r api-requirements.txt
 
 COPY ./dtq ./dtq
 COPY ./api .
