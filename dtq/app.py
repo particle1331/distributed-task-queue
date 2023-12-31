@@ -35,8 +35,9 @@ CELERY_CONFIG = {
     "result_extended": True,
 }
 
+# Default name celery -> backward compatible
 OTHER_NAME = "other"
-DEFAULT_NAME = "celery"  # backward compatible
+DEFAULT_NAME = "celery"
 exchange = Exchange(DEFAULT_NAME, type="direct")
 other_queue = Queue(OTHER_NAME, exchange, routing_key=OTHER_NAME)
 default_queue = Queue(DEFAULT_NAME, exchange, routing_key=DEFAULT_NAME)
