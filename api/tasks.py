@@ -47,20 +47,6 @@ async def pending_tasks(queue: str = "celery") -> list[PendingTask]:
     return messages
 
 
-@router.get("/pending_size")
-async def total_pending_size(queue: str = "celery") -> float:
-    messages = poll_messages(queue)
-    pending_size = 0
-    task_path = {
-        "queue": "dtq.tasks.sleep",
-        "other": "dtq.tasks.other_sleep",
-    }
-    for m in messages:
-        if m["task"] == task_path[queue]:
-            pending_size += m["kwargs"]["wait"]
-    return pending_size
-
-
 @router.post("/revoke/{task_id}")
 async def revoke_task(task_id: str) -> JSONResponse:
     if not exist_workers():
