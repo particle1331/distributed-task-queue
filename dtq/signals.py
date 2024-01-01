@@ -16,7 +16,7 @@ def setup_workers(sender=None, conf=None, **kwargs):
         level=logging.INFO,
     )
     logger = logging.getLogger("WorkerInit")
-    
+
     try:
         logger.info("Starting worker...")
         time.sleep(12.0)

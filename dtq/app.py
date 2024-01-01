@@ -1,7 +1,7 @@
 import os
+
 from celery import Celery
 from celery.schedules import crontab
-
 
 REDIS_HOST = os.environ["REDIS_HOST"]
 REDIS_PORT = os.environ["REDIS_PORT"]
@@ -36,8 +36,8 @@ CELERY_CONFIG = {
 
 app.conf.update(CELERY_CONFIG)
 app.conf.task_routes = {
-    'dtq.tasks.*': {'queue': 'celery'},
-    'dtq.other_tasks.*': {'queue': 'other'}
+    "dtq.tasks.*": {"queue": "celery"},
+    "dtq.other_tasks.*": {"queue": "other"},
 }
 
 app.conf.beat_schedule = {

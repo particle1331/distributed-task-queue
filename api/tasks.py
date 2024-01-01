@@ -53,7 +53,7 @@ async def total_pending_size(queue: str = "celery") -> float:
     pending_size = 0
     task_path = {
         "queue": "dtq.tasks.sleep",
-        "other": "dtq.tasks.other_sleep"
+        "other": "dtq.tasks.other_sleep",
     }
     for m in messages:
         if m["task"] == task_path[queue]:
