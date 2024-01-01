@@ -33,24 +33,6 @@ services:
       "-l", "INFO", "-f", "celery.log"
     ]
 
-  other-worker:
-    build:
-      dockerfile: Dockerfile.worker
-    depends_on:
-      - redis
-      - rabbitmq
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
-    deploy:
-      replicas: 1
-    command: [
-      "-A", "dtq.app", "worker", "--concurrency", "2", "-Q", "other",
-      "-l", "INFO", "-f", "celery.log"
-    ]
-
   redis:
     image: redis:latest
     ports:
