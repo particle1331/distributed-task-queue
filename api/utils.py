@@ -33,6 +33,7 @@ def poll_messages(queue="celery"):
             break
 
         metadata = properties.headers
+        metadata["task"] = metadata.pop("task")
         metadata["task_id"] = metadata.pop("id")
         metadata["args"] = ast.literal_eval(metadata.pop("argsrepr"))
         metadata["kwargs"] = ast.literal_eval(metadata.pop("kwargsrepr"))

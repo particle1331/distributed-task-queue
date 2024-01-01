@@ -24,6 +24,7 @@ class ActiveTask(BaseModel):
 
 class PendingTask(BaseModel):
     task_id: str
+    task: str
     retries: int
     timelimit: list
     root_id: str
