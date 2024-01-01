@@ -42,19 +42,9 @@ async def active_tasks() -> list[ActiveTask]:
 
 
 @router.get("/pending")
-async def pending_tasks() -> list[PendingTask]:
-    messages = poll_messages()
+async def pending_tasks(queue: str = "celery") -> list[PendingTask]:
+    messages = poll_messages(queue)
     return messages
-
-
-@router.get("/pending_size")
-async def total_pending_size() -> float:
-    messages = poll_messages()
-    pending_size = 0
-    for m in messages:
-        if m["task"] == "dtq.tasks.sleep":
-            pending_size += m["kwargs"]["wait"]
-    return pending_size
 
 
 @router.post("/revoke/{task_id}")
