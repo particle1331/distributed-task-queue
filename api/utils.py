@@ -17,27 +17,31 @@ def poll_messages(queue="celery"):
         port=os.environ["RABBITMQ_PORT"],
     )
     conn = pika.BlockingConnection(parameters)
+    queue_args = {"x-max-priority": 10}
     channel = conn.channel()
-    channel.queue_declare(
-        queue=queue, durable=True, arguments={"x-max-priority": 10}
-    )
+    channel.queue_declare(queue, durable=True, arguments=queue_args)
 
     messages = []
     while True:
-        #  pylint: disable = unused-variable
-        method_frame, properties, body = channel.basic_get(
-            queue=queue,
-            auto_ack=False,
-        )
+        response = channel.basic_get(queue=queue, auto_ack=False)
+        method_frame, properties, _ = response
         if method_frame is None:
             break
 
         metadata = properties.headers
-        metadata["task"] = metadata.pop("task")
-        metadata["task_id"] = metadata.pop("id")
-        metadata["args"] = ast.literal_eval(metadata.pop("argsrepr"))
-        metadata["kwargs"] = ast.literal_eval(metadata.pop("kwargsrepr"))
-        messages.append(metadata)
+        fields = [
+            "id",
+            "task",
+            "retries",
+            "timelimit",
+            "root_id",
+            "parent_id",
+            "origin",
+        ]
+        msg = {metadata[k] for k in fields}
+        msg["args"] = ast.literal_eval(metadata["argsrepr"])
+        msg["kwargs"] = ast.literal_eval(metadata["kwargsrepr"])
+        messages.append(msg)
 
     conn.close()
     return messages

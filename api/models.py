@@ -10,8 +10,8 @@ class Task(BaseModel):
 
 
 class ActiveTask(BaseModel):
-    task_id: str
-    name: str
+    id: str
+    task: str
     args: list
     kwargs: dict
     hostname: str
@@ -23,7 +23,7 @@ class ActiveTask(BaseModel):
 
 
 class PendingTask(BaseModel):
-    task_id: str
+    id: str
     task: str
     retries: int
     timelimit: list
