@@ -34,6 +34,7 @@ async def active_tasks() -> list[ActiveTask]:
     for worker in active.keys():
         for metadata in active[worker]:
             delivery_info = metadata.pop("delivery_info")
+            metadata["task_id"] = metadata.pop("id")
             metadata["task"] = metadata.pop("name")
             metadata["worker"] = metadata.pop("hostname")
             metadata["priority"] = delivery_info["priority"]
