@@ -14,7 +14,7 @@ class ActiveTask(BaseModel):
     task: str
     args: list
     kwargs: dict
-    hostname: str
+    worker: str
     time_start: datetime
     acknowledged: bool
     priority: int
