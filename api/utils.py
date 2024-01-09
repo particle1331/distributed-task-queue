@@ -38,7 +38,9 @@ def poll_messages(queue="celery"):
             "parent_id",
             "origin",
         ]
-        msg = {metadata[k] for k in fields}
+
+        msg = {k: metadata[k] for k in fields}
+        msg["task_id"] = msg.pop("id")
         msg["args"] = ast.literal_eval(metadata["argsrepr"])
         msg["kwargs"] = ast.literal_eval(metadata["kwargsrepr"])
         messages.append(msg)
